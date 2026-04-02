@@ -1,37 +1,68 @@
 <script setup lang="ts">
 import JobStats from '@/components/dashboard/JobStats.vue';
+import { useJobStore } from '@/stores/useJobStore';
+import FooterSection from '@/components/shared/Footer.vue';
+import Navigation from '@/components/shared/Navigation.vue';
+const jobStore = useJobStore()
 </script>
 
 <template>
     <div>
-         <div class="row m-0 mb-3 p-0">
-            <div class="col-12">
-                <div class="alert my-2 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
-                    style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <h3 class="mb-0">📆</h3>
+        <navigation />
+        <div class="my-4 px-5 ">
+            <div class="row m-0 p-0 main-wrapper">
+                <div class="col-12">
+                    <div v-if="!jobStore.jobs.length"
+                        class="alert h-100 m-0 alert-primary text-white p-4 rounded shadow-sm d-flex  justify-content-center align-items-center"
+                        style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
+                        <div class="w-100">
+                            <div>
+                                <div class="text-center">
+                                    <h1>📆</h1>
+                                    <h2 class="my-2">We don’t have enough data yet.</h2>
+                                    <p class="mb-3">Start by adding your first job application.</p>
+                                </div>
+                            </div>
+                            <div class="text-center my-4">
+                                <router-link to="/jobs" class="btn btn-md btn-light">
+                                + Add Job
+                            </router-link>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="mb-1">Your Job Search Dashboard </h5>
-                            <p class="mb-0">Track applications, monitor progress, and stay consistent in your job
-                                search.</p>
-                        </div>
-                    </div>
-                    <router-link to="/jobs" class="btn btn-light">
-                        + Add Job
-                    </router-link>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <!-- LEFT: Form -->
-            <div class="col-md-12">
-                <div>
-                    <job-stats />
+                    </div>
+                    <div v-else="jobStore.jobs.length"
+                        class="alert my-2 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
+                        style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <h3 class="mb-0">📆</h3>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Your Job Search Dashboard </h5>
+                                <p class="mb-0">Track applications, monitor progress, and stay consistent in your job
+                                    search.</p>
+                            </div>
+                        </div>
+                        <router-link to="/jobs" class="btn btn-light">
+                            + Add Job
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="jobStore.jobs.length" class="row">
+                <!-- LEFT: Form -->
+                <div class="col-md-12">
+                    <div>
+                        <job-stats />
+                    </div>
                 </div>
             </div>
         </div>
+        <footer-section />
     </div>
 </template>
+
+<style>
+</style>

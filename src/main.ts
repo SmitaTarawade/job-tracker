@@ -7,10 +7,18 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Toast from "vue-toastification"
 import "vue-toastification/dist/index.css"
+import { useUserStore } from '@/stores/useUserStore'
 
-createApp(App)
-    .use(createPinia())
-    .use(router)
+const app = createApp(App)
+
+const pinia = createPinia()
+app.use(pinia)
+
+const userStore = useUserStore()
+userStore.loadUser
+
+
+app.use(router)
     .use(Toast, {
         position: "bottom-right",
         timeout: 3000,

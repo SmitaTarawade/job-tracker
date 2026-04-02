@@ -130,11 +130,6 @@ watch(() => jobStore.editJobItem, (newJob) => {
   border: 2px solid lightblue;
 }
 
-hr {
-  color: #ced4da;
-  ;
-}
-
 .card .bi.bi-x {
   top: 15px;
   right: 15px;

@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import Navigation from './components/dashboard/Navigation.vue';
+import { onMounted } from 'vue';
+import { useUserStore } from './stores/useUserStore';
 </script>
 
 <template>
  <div class="mx-auto">
-  <navigation/>
-  <div class="px-5 my-4">
-     <router-view></router-view>
-  </div>
-  <footer class="mt-5 bg-light py-5 border-top">
-    <div class="d-flex justify-content-between align-items-center flex-wrap text-muted small px-5">
-      
-      <div>
-        © 2026 Job Tracker • Built with Vue
-      </div>
-
-      <div>
-        Stay consistent 💼 • Keep going 🚀
-      </div>
-
-    </div>
-  </footer>
-  
+  <router-view></router-view>
  </div>
 </template>
 
 <style>
-
+.main-wrapper {
+    min-height: calc(100vh - 262px);
+}
+hr {
+    color: #ced4da !important;
+}
 </style>

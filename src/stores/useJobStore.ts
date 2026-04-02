@@ -123,7 +123,10 @@ export const useJobStore = defineStore('jobStore', () => {
         }, 800)
 
     }
-
+    const resetJobs = () => {
+        jobs.value = []
+        localStorage.removeItem('jobs')
+    }
     watch(jobs, (newJobs) => {
         localStorage.setItem('jobs', JSON.stringify(newJobs));
     }, { deep: true })
@@ -148,6 +151,7 @@ export const useJobStore = defineStore('jobStore', () => {
         loadJobs,
         editJob,
         updateJob,
+        resetJobs
     }
 
 })

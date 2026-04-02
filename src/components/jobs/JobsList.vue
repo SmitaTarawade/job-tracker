@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row m-0">
         <div :class="(showForm || jobStore.editJobItem) ? 'col-9' : 'col-12'">
             <div class="table-view">
                 <div class="d-flex gap-3 mb-3 table-header">
@@ -38,7 +38,7 @@
                     <div v-for="i in 3" :key="i" class="skeleton-loader mb-2"></div>
                 </div>
                 <div v-else="jobStore.isLoading" class="job-list-wrapper">
-                    <table v-if="jobStore.total > 0" class="table table-striped mb-0">
+                    <table class="table table-striped mb-0">
                         <thead class="table-light sticky-top">
                             <tr>
                                 <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
@@ -49,20 +49,20 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
-                                :statusOptions="statusOptions"></job-item>
-                            <tr v-if="jobStore.total === 0">
+                        <tbody>                           
+                            <tr v-if="!jobStore.jobs.length && !jobStore.finalJobs.length">
                                 <td colspan="6">
                                     <p class="text-center text-muted mt-4"> No jobs added yet. Start by adding
                                         one.</p>
                                 </td>
                             </tr>
-                            <tr v-if="jobStore.finalJobs.length === 0">
+                            <tr v-else-if="jobStore.jobs.length && !jobStore.finalJobs">
                                 <td colspan="6">
                                     <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
                                 </td>
                             </tr>
+                            <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
+                                :statusOptions="statusOptions"></job-item>
                         </tbody>
                     </table>
                 </div>
@@ -133,6 +133,7 @@ function exportToExcel() {
 }
 
 onMounted(() => {
+    console.log(jobStore.jobs.length)
     jobStore.loadJobs()
     searchInput.value = jobStore.searchQuery
 })
