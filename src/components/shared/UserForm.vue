@@ -116,7 +116,7 @@ const deleteData = () => {
     userStore.resetUser()
     jobStore.resetJobs()
    toast.success('Sucessfully deleted all data')
-    router.replace('onboarding')
+    router.replace('/onboarding')
 }
 
 onMounted(() => {

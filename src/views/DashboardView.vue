@@ -9,12 +9,11 @@ const jobStore = useJobStore()
 <template>
     <div>
         <navigation />
-        <div class="my-4 px-5 ">
-            <div class="row m-0 p-0 main-wrapper">
-                <div class="col-12">
+        <div class="my-5 px-5 main-wrapper">
+            <div class="row m-0 p-0 ">
+                <div class="col-12 p-0">
                     <div v-if="!jobStore.jobs.length"
-                        class="alert h-100 m-0 alert-primary text-white p-4 rounded shadow-sm d-flex  justify-content-center align-items-center"
-                        style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
+                        class="h-100 m-0 p-4 rounded d-flex  justify-content-center align-items-center">
                         <div class="w-100">
                             <div>
                                 <div class="text-center">
@@ -24,7 +23,7 @@ const jobStore = useJobStore()
                                 </div>
                             </div>
                             <div class="text-center my-4">
-                                <router-link to="/jobs" class="btn btn-md btn-light">
+                                <router-link to="/jobs" class="btn btn-md btn-primary">
                                 + Add Job
                             </router-link>
                             </div>
@@ -32,7 +31,7 @@ const jobStore = useJobStore()
 
                     </div>
                     <div v-else="jobStore.jobs.length"
-                        class="alert my-2 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
+                        class="alert mb-4 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
                         style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
                         <div class="d-flex align-items-center">
                             <div class="me-3">
@@ -53,7 +52,7 @@ const jobStore = useJobStore()
 
             <div v-if="jobStore.jobs.length" class="row">
                 <!-- LEFT: Form -->
-                <div class="col-md-12">
+                <div class="col-12 p-0">
                     <div>
                         <job-stats />
                     </div>

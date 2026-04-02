@@ -22,7 +22,7 @@
                 }"></i> {{ job?.status }}</span>
             </span>
         </td>
-        <td>
+        <td class="text-muted small">
             {{ job?.notes }}
         </td>
         <td>

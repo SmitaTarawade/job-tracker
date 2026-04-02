@@ -8,7 +8,7 @@ import Navigation from '@/components/shared/Navigation.vue';
 <template>
      <div>
           <navigation/>
-          <div class="my-4 px-5 main-wrapper">
+          <div class="my-5 px-5 main-wrapper">
                <job-list/>
           </div>         
           <footer-section/>
