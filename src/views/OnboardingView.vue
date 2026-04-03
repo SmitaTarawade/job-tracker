@@ -4,17 +4,16 @@
             style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
             <div class="row m-0 mx-auto">
                 <!-- LEFT -->
-                <div class="col-7 d-flex flex-column justify-content-center text-white p-5">
-                    <img src="/src/assets/job-hunt.svg" alt="Job tracking illustration" class="img-fluid mb-4" />
-                    <h1 class="mb-3">Job Tracker Dashboard</h1>
-
-                    <p>
+                <div class="col-md-7 col-sm-6 d-flex flex-column justify-content-center text-white onboarding-title ">
+                    <img src="/src/assets/job-hunt.svg" alt="Job tracking illustration"
+                        class="img-fluid mb-3 onboarding-img " />
+                    <h1 class="mb-3 d-flex align-items-center">Job Tracker Dashboard</h1>
+                    <p class="d-none d-sm-block">
                         A simple way to manage your job applications and stay on top of your goals.
                     </p>
-                    
                 </div>
                 <!-- RIGHT -->
-                <div class="col-5 ms-auto card shadow-sm p-4">
+                <div class="col-md-5 col-sm-6  ms-auto card shadow-sm p-4">
 
                     <h2>Welcome 👋</h2>
                     <p class="mb-0">Let's get you started</p>
@@ -56,10 +55,22 @@ const handleSubmit = () => {
 
 <style>
 .container-fluid {
-    height: calc(100vh - 119px);
+    min-height: calc(100vh - 119px);
 }
-img{
-    max-width: 225px !important;
-    height:auto;
+
+.onboarding-img {
+    max-width: 225px;
+    width:100%;
+    height: auto;
+}
+
+@media (max-width: 575px) {
+    .onboarding-title {
+        flex-direction: row !important;
+        .onboarding-img {
+            max-width: 150px;
+        }
+    }
+
 }
 </style>

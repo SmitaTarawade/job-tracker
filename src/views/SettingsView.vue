@@ -12,7 +12,7 @@
                         </p>
                         <hr>
                     </div>
-                    <user-form />
+                   <settings/>
                 </div>
             </div>
 
@@ -24,5 +24,6 @@
 import FooterSection from '@/components/shared/Footer.vue';
 import UserForm from '@/components/shared/UserForm.vue';
 import Navigation from '@/components/shared/Navigation.vue';
+import Settings from '@/components/Settings.vue';
 
 </script>

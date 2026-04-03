@@ -2,8 +2,12 @@
 import JobStats from '@/components/dashboard/JobStats.vue';
 import { useJobStore } from '@/stores/useJobStore';
 import FooterSection from '@/components/shared/Footer.vue';
+import { onMounted } from 'vue'
 import Navigation from '@/components/shared/Navigation.vue';
 const jobStore = useJobStore()
+onMounted(() => {
+    jobStore.loadJobs()
+})
 </script>
 
 <template>
@@ -12,8 +16,8 @@ const jobStore = useJobStore()
         <div class="my-5 px-5 main-wrapper">
             <div class="row m-0 p-0 ">
                 <div class="col-12 p-0">
-                    <div v-if="!jobStore.jobs.length"
-                        class="h-100 m-0 p-4 rounded d-flex  justify-content-center align-items-center">
+                    <div v-if="!jobStore.isLoading && !jobStore.jobs.length"
+                        class="h-100 m-0 p-4 rounded d-flex justify-content-center align-items-center main-wrapper">
                         <div class="w-100">
                             <div>
                                 <div class="text-center">
@@ -24,17 +28,17 @@ const jobStore = useJobStore()
                             </div>
                             <div class="text-center my-4">
                                 <router-link to="/jobs" class="btn btn-md btn-primary">
-                                + Add Job
-                            </router-link>
+                                    + Add Job
+                                </router-link>
                             </div>
                         </div>
 
                     </div>
-                    <div v-else="jobStore.jobs.length"
+                    <div v-else="!jobStore.isLoading && jobStore.jobs.length"
                         class="alert mb-4 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
                         style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
-                        <div class="d-flex align-items-center">
-                            <div class="me-3">
+                        <div class="d-flex align-items-center icon-card">
+                            <div class="me-md-3 mb-md-0 mb-3">
                                 <h3 class="mb-0">📆</h3>
                             </div>
                             <div>
@@ -49,8 +53,11 @@ const jobStore = useJobStore()
                     </div>
                 </div>
             </div>
-
-            <div v-if="jobStore.jobs.length" class="row">
+            <div v-if="jobStore.isLoading" class="d-flex justify-content-center align-items-center"
+                style="height: 50vh;">
+                <div class="spinner-border text-primary"></div>
+            </div>
+            <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="row">
                 <!-- LEFT: Form -->
                 <div class="col-12 p-0">
                     <div>
@@ -64,4 +71,18 @@ const jobStore = useJobStore()
 </template>
 
 <style>
+@media (max-width: 768px) {
+    .alert-primary {
+        flex-direction: column;
+
+        .btn {
+            margin: 24px 0 0;
+            width: 100%
+        }
+    }
+
+    .icon-card {
+        flex-direction: column;
+    }
+}
 </style>

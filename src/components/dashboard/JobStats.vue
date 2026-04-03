@@ -1,12 +1,10 @@
 <template>
-    <div class="tiles">     
+    <div class="tiles">
         <div class="row  mx-0 p-0">
-            <div class="col-6 h-100">
-                <status-chart/>
-            </div>
-            <div class="col-6">
-                <div class="">
-                    <div class="p-3 text-white mb-4 w-100 rounded border d-flex align-items-center shadow-sm" style="background:#1cc88a;">
+            <div class="col-md-6 col-sm-12">
+                <div>
+                    <div class="p-3 text-white mb-4 w-100 rounded border d-flex align-items-center shadow-sm"
+                        style="background:#1cc88a;">
                         <p class="mb-0 me-3">🚀</p>
                         <div>
                             <div>Progress update:</div>
@@ -81,13 +79,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-sm-12 h-100 mt-4 mt-md-0">
+                <status-chart />
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { useJobStore } from '@/stores/useJobStore'
 import StatusChart from '@/components/dashboard/StatusChart.vue'
-import { onMounted, computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const jobStore = useJobStore()
 
@@ -101,7 +102,4 @@ const message = computed(() => {
     return "Start small. One application today is enough."
 })
 
-onMounted(() => {
-    jobStore.loadJobs()
-})
 </script>

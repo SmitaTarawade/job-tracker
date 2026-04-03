@@ -8,7 +8,6 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 const touched = ref<{ [key: string]: boolean }>({})
-
 const jobStore = useJobStore()
 const formData = ref<FormData>({
   company: '',
@@ -42,10 +41,10 @@ const handleSubmit = () => {
         notes: formData.value.notes
       }
 
-      jobStore.addJob(newJob)
+      jobStore.addJob(newJob)     
 
     }
-
+    emit('close')
     resetForm()
 
   }
@@ -74,8 +73,8 @@ watch(() => jobStore.editJobItem, (newJob) => {
 </script>
 
 <template>
-  <div class="card p-4 shadow-sm bg-light h-100 position-relative" :class="{ 'focus': jobStore.editJobItem }">
-    <i class="bi bi-x position-absolute" @click="handleCloseForm"></i>
+  <div class="card p-4 shadow-sm bg-light h-100 position-relative job-form" :class="{ 'focus': jobStore.editJobItem }">
+    <i class="bi bi-x position-absolute" @click="handleCloseForm" :disabled="jobStore.jobs.length === 0"></i>
     <h5 v-show="!jobStore.editJobItem"> <i class="bi bi-plus-circle me-2"></i> Add Job
     </h5>
     <h5 v-show="jobStore.editJobItem"> <i class="bi bi-pencil-square me-2"></i> Edit Job
@@ -134,5 +133,16 @@ watch(() => jobStore.editJobItem, (newJob) => {
   top: 15px;
   right: 15px;
   cursor: pointer;
+  &[disabled='true']{
+    cursor:none;
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+.job-form {
+  min-width: 300px;
+  width:50%;
+  z-index: 999;
+  margin: 0 auto;
 }
 </style>

@@ -1,88 +1,95 @@
 <template>
-    <div class="row m-0 gx-5">
-        <div :class="(showForm || jobStore.editJobItem) ? 'col-9' : 'col-12'" class="ps-0">
+    <div class="m-0">
+        <div>
             <div v-if="jobStore.isLoading" class="table-skeleton">
                 <div v-for="i in 3" :key="i" class="skeleton-loader mb-2"></div>
             </div>
-            <div v-else="jobStore.isLoading">
-                <div v-if="jobStore.jobs.length === 0" class="text-center mt-5">
+            <div v-else-if="!jobStore.isLoading && jobStore.jobs.length === 0" class="text-center mt-md-5 mb-sm-3">
 
-                    <div style="font-size: 48px;">🚀</div>
+                <div style="font-size: 48px;">🚀</div>
 
-                    <h5 class="mt-3">Start Your Job Journey</h5>
+                <h5 class="mt-3">Start Your Job Journey</h5>
 
-                    <p class="text-muted">
-                        Add your first job application to begin tracking your progress
-                    </p>
+                <p class="text-muted">
+                    Add your first job application to begin tracking your progress
+                </p>
 
-                </div>
-                <div v-else class="table-view">
-                    <div class="d-flex gap-3 mb-3 table-header">
-                        <h5 class="d-flex align-items-center mb-0">Your Applications:</h5>
+            </div>
 
-                        <div class="ms-auto h-100">
-                            <div class="position-relative">
-                                <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                                <input v-model="searchInput" type="text" class="form-control search-input ps-5"
-                                    placeholder="Search jobs..." />
-                                <button v-if="searchInput" @click="searchInput = ''"
-                                    class="btn btn-sm position-absolute end-0 top-50 translate-middle-y">
-                                    <i class="bi bi-x position-absolute top-50 end-50 translate-middle-y me-3"></i>
-                                </button>
-                            </div>
+            <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="table-view">
+                <h5 class="d-flex align-items-center mb-3">Your Applications:</h5>
+                <div class="d-flex gap-3 mb-1 table-header ">
+
+                    <div class="ms-auto h-100 search-input">
+                        <div class="position-relative">
+                            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                            <input v-model="searchInput" type="text" class="form-control search-input ps-5"
+                                placeholder="Search jobs..." />
+                            <button v-if="searchInput" @click="searchInput = ''"
+                                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y">
+                                <i class="bi bi-x position-absolute top-50 end-50 translate-middle-y me-3"></i>
+                            </button>
                         </div>
+                    </div>
 
-                        <div class="d-flex align-items-center gap-2 ">
-                            <i class="bi bi-funnel"></i>
-                            <span>Filter:</span>
+                    <div class="d-flex align-items-center gap-2 filter-group">
+                        <div class="filter-input d-flex h-100">
+                            <span class="d-flex align-items-center"> <i class="bi bi-funnel"></i> Filter:</span>
                             <select v-model="jobStore.selectedStatus"
-                                class="form-select h-100 form-select-sm w-auto me-3 text-capitalize">
+                                class="form-select h-100 form-select-sm w-auto mx-3 text-capitalize">
                                 <option value="">All</option>
                                 <option v-for="status of statusOptions" :value="status" :key="status"
                                     class="text-capitalize">
                                     {{ status }}</option>
                             </select>
+                        </div>
+                        <div class="btn-group">
                             <button class="btn btn-success ms-auto" title="Export to Excel" @click="exportToExcel">
                                 <i class="bi bi-file-earmark-arrow-down"></i> Export to Excel
                             </button>
-                            <button type="button" aria-hidden="false" v-if="!showForm && !jobStore.editJobItem"
-                                class="btn btn-primary ms-3" @click="showForm = true"><i class="bi bi-plus"></i><span>
+                            <button type="button" title="Add Job" class="btn btn-primary ms-3"
+                                @click="showForm = true"><i class="bi bi-plus"></i><span>
                                     Add Job </span></button>
                         </div>
-                    </div>
 
-                    <div class="job-list-wrapper">
-
-                        <table class="table align-middle my-4">
-                            <thead class="table-light sticky-top">
-                                <tr>
-                                    <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
-                                    <th @click="sortColumn('company')">Company {{ getSortIcon('company') }}</th>
-                                    <th @click="sortColumn('role')">Role {{ getSortIcon('role') }}</th>
-                                    <th @click="sortColumn('status')">Status {{ getSortIcon('status') }}</th>
-                                    <th>Notes</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-if="!jobStore.finalJobs">
-                                    <td colspan="6">
-                                        <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
-                                    </td>
-                                </tr>
-                                <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
-                                    :statusOptions="statusOptions"></job-item>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
+
+                <div class="job-list-wrapper">
+                    <div v-if="isMobile" class="d-flex my-4 flex-wrap">
+                        <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job" :is-mobile="isMobile"
+                            :statusOptions="statusOptions"></job-item>
+                    </div>
+                    <table v-else class="table table-responsive align-middle my-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
+                                <th @click="sortColumn('company')">Company {{ getSortIcon('company') }}</th>
+                                <th @click="sortColumn('role')">Role {{ getSortIcon('role') }}</th>
+                                <th @click="sortColumn('status')">Status {{ getSortIcon('status') }}</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="!jobStore.finalJobs">
+                                <td colspan="6">
+                                    <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
+                                </td>
+                            </tr>
+                            <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
+                                :is-mobile="isMobile" :statusOptions="statusOptions"></job-item>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div v-if="showForm" class="modal-overlay" @close="showForm = !showForm">
+            <div class="modal-box w-100">
+                <job-form v-if="showForm || jobStore.editJobItem" 
+                    :editJobData="editJobData"   @close="showForm = !showForm"/>
             </div>
 
-
-        </div>
-        <div class="col-3 pe-0">
-            <job-form v-if="showForm || jobStore.editJobItem" @close="showForm = !showForm"
-                :editJobData="editJobData" />
         </div>
     </div>
 </template>
@@ -90,15 +97,15 @@
 <script setup lang="ts">
 import JobItem from '@/components/jobs/JobItem.vue';
 import JobForm from '@/components/jobs/JobForm.vue';
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useJobStore } from '@/stores/useJobStore';
 import { getDate } from '@/utils/formatDate'
 import * as XLSX from 'xlsx'
-
 const searchInput = ref('')
-const showForm = ref(true)
+const showForm = ref(false)
 const editJobData = ref()
 const jobStore = useJobStore()
+let isMobile = ref<Boolean>(false)
 
 const statusOptions = ["applied", "interview", "rejected", "selected"] as const;
 
@@ -118,8 +125,6 @@ function getSortIcon(field: string) {
         return jobStore.sortOrder === 'asc' ? '↑' : '↓'
     }
 }
-
-
 
 function exportToExcel() {
     const data = jobStore.finalJobs.map(job => ({
@@ -145,12 +150,20 @@ function exportToExcel() {
     XLSX.writeFile(workbook, 'jobs.xlsx')
 }
 
+function checkScreenSize() {
+    isMobile.value = window.innerWidth <= 768
+}
+
+
 onMounted(() => {
-    console.log(jobStore.jobs.length)
     jobStore.loadJobs()
     searchInput.value = jobStore.searchQuery
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
 })
-
+onUnmounted(() => {
+    window.removeEventListener('resize', checkScreenSize)
+})
 let timeout: any = null
 
 watch(searchInput, (newSearchInput) => {
@@ -178,34 +191,7 @@ table {
         background-color: white !important;
     }
 
-    th:nth-child(1) {
-        width: 15%
-    }
-
-    th:nth-child(2) {
-        width: 18%
-    }
-
-    th:nth-child(3) {
-        width: 15%
-    }
-
-    th:nth-child(4) {
-        width: 15%
-    }
-
-    th:nth-child(5) {
-        width: 15%
-    }
-
-    th:nth-child(6) {
-        width: 21%
-    }
-
     td {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         vertical-align: middle;
     }
 }
@@ -217,11 +203,6 @@ table tbody tr {
 th:hover {
     cursor: pointer;
     background-color: lightgrey;
-}
-
-.job-list-wrapper {
-    max-height: 422px;
-    overflow-y: auto;
 }
 
 .badge {
@@ -252,5 +233,50 @@ th:hover {
 
 .search-input {
     height: 43px;
+}
+
+.job-list-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 820px) {
+    .job-list-wrapper {
+        overflow-x: hidden;
+    }
+
+    .table-header {
+        flex-direction: column;
+
+        .search-input {
+            width: 100%;
+        }
+
+        .filter-input,
+        .filter-group {
+            flex-direction: column;
+            width: 100%;
+
+            select {
+                margin: 0 !important;
+            }
+        }
+
+        .btn-group {
+            width: 100%;
+        }
+    }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+ z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
