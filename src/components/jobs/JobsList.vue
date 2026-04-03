@@ -13,6 +13,11 @@
                 <p class="text-muted">
                     Add your first job application to begin tracking your progress
                 </p>
+                <div class="text-center my-4">
+                    <button type="button" title="Add Job" class="btn btn-primary ms-3" @click="showForm = true"><i
+                            class="bi bi-plus"></i><span>
+                            Add Job </span></button>
+                </div>
 
             </div>
 
@@ -86,8 +91,8 @@
         </div>
         <div v-if="showForm" class="modal-overlay" @close="showForm = !showForm">
             <div class="modal-box w-100">
-                <job-form v-if="showForm || jobStore.editJobItem" 
-                    :editJobData="editJobData"   @close="showForm = !showForm"/>
+                <job-form v-if="showForm || jobStore.editJobItem" :editJobData="editJobData"
+                    @close="showForm = !showForm" />
             </div>
 
         </div>
@@ -100,12 +105,14 @@ import JobForm from '@/components/jobs/JobForm.vue';
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useJobStore } from '@/stores/useJobStore';
 import { getDate } from '@/utils/formatDate'
+import { useRoute } from 'vue-router'
 import * as XLSX from 'xlsx'
 const searchInput = ref('')
 const showForm = ref(false)
 const editJobData = ref()
 const jobStore = useJobStore()
 let isMobile = ref<Boolean>(false)
+const route = useRoute()
 
 const statusOptions = ["applied", "interview", "rejected", "selected"] as const;
 
@@ -160,6 +167,7 @@ onMounted(() => {
     searchInput.value = jobStore.searchQuery
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
+    showForm.value = route.query.showForm === 'true'
 })
 onUnmounted(() => {
     window.removeEventListener('resize', checkScreenSize)
@@ -267,16 +275,17 @@ th:hover {
         }
     }
 }
+
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
- z-index: 99999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

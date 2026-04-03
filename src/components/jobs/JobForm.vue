@@ -74,7 +74,7 @@ watch(() => jobStore.editJobItem, (newJob) => {
 
 <template>
   <div class="card p-4 shadow-sm bg-light h-100 position-relative job-form" :class="{ 'focus': jobStore.editJobItem }">
-    <i class="bi bi-x position-absolute" @click="handleCloseForm" :disabled="jobStore.jobs.length === 0"></i>
+    <i class="bi bi-x position-absolute" @click="handleCloseForm"></i>
     <h5 v-show="!jobStore.editJobItem"> <i class="bi bi-plus-circle me-2"></i> Add Job
     </h5>
     <h5 v-show="jobStore.editJobItem"> <i class="bi bi-pencil-square me-2"></i> Edit Job
@@ -133,11 +133,6 @@ watch(() => jobStore.editJobItem, (newJob) => {
   top: 15px;
   right: 15px;
   cursor: pointer;
-  &[disabled='true']{
-    cursor:none;
-    pointer-events: none;
-    opacity: 0;
-  }
 }
 .job-form {
   min-width: 300px;

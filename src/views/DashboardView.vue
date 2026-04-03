@@ -16,7 +16,11 @@ onMounted(() => {
         <div class="my-5 px-5 main-wrapper">
             <div class="row m-0 p-0 ">
                 <div class="col-12 p-0">
-                    <div v-if="!jobStore.isLoading && !jobStore.jobs.length"
+                    <div v-if="jobStore.isLoading" class="d-flex justify-content-center align-items-center"
+                        style="height: 50vh;">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                    <div v-else-if="!jobStore.isLoading && !jobStore.jobs.length"
                         class="h-100 m-0 p-4 rounded d-flex justify-content-center align-items-center main-wrapper">
                         <div class="w-100">
                             <div>
@@ -27,7 +31,7 @@ onMounted(() => {
                                 </div>
                             </div>
                             <div class="text-center my-4">
-                                <router-link to="/jobs" class="btn btn-md btn-primary">
+                                <router-link :to="{ path: '/jobs', query: { showForm: 'true' } }" class="btn btn-md btn-primary">
                                     + Add Job
                                 </router-link>
                             </div>
@@ -53,11 +57,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div v-if="jobStore.isLoading" class="d-flex justify-content-center align-items-center"
-                style="height: 50vh;">
-                <div class="spinner-border text-primary"></div>
-            </div>
-            <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="row">
+            <div v-if="!jobStore.isLoading && jobStore.jobs.length" class="row">
                 <!-- LEFT: Form -->
                 <div class="col-12 p-0">
                     <div>
