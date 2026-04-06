@@ -1,13 +1,13 @@
 <template>
   <footer class="footer bg-light py-5 border-top  px-5">
-    <div class="d-flex justify-content-between align-items-center flex-wrap text-muted small">
+    <div class="d-flex justify-content-between align-items-center footer-wrapper flex-wrap text-muted small">
       <div class="footer-left my-2">
         <span></span>© 2026 Job Tracker • Built with Vue
       </div>
 
       <div class="footer-right my-2">
-        <span class="d-none d-md-inline">Stay consistent 📁 • Keep going 🚀</span>
-        <a class="mx-3" href="https://github.com/SmitaTarawade" target="_blank" rel="noopener">
+        <span> 📁 Data Stored Locally • <router-link to="/settings" class="btn-link">Manage Data</router-link></span>
+        <a class="mx-3 github-link" href="https://github.com/SmitaTarawade" target="_blank" rel="noopener">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 499.36" role="img">
             <title>GitHub</title>
             <path fill="#333333" fill-rule="evenodd"
@@ -20,3 +20,15 @@
 
   </footer>
 </template>
+<style>
+@media (max-width: 767px){
+   .footer-wrapper, .footer-right {
+    display: flex;
+    flex-direction: column;
+    .github-link {
+      text-align: center;
+      margin: 15px 0;
+    }
+   }
+}
+</style>

@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { onMounted } from 'vue';
-import { useUserStore } from './stores/useUserStore';
-</script>
-
 <template>
  <div class="mx-auto">
   <router-view></router-view>
@@ -15,5 +10,8 @@ import { useUserStore } from './stores/useUserStore';
 }
 hr {
     color: #ced4da !important;
+}
+input, select {
+    min-height: 43px;
 }
 </style>

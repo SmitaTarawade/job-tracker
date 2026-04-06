@@ -3,16 +3,27 @@
         <div>
             <h5 class="mt-3">Profile</h5>
             <p class="text-muted small">
-                Update your name and choose how you appear across the app
+                Update your name and choose how you appear across the app.
             </p>
         </div>
-        <user-form/>
+        <user-form />
+        <div class=" mb-5">
+            <hr class="my-5">
+            <div>
+                <h5>Manage Data</h5>
+                <p class="mb-0 text-muted small">Your data is stored locally in your browser.</p>
+                <p class="text-muted small"> Clearing browser data may remove your saved jobs.</p>
+                <button class="btn btn-success w-auto export-btn" title="Export to Excel" @click="useExportExcel()">
+                    <i class="bi bi-file-earmark-arrow-down"></i> Export to Excel
+                </button>
+            </div>
+        </div>
         <div class=" mb-5">
             <hr class="my-5">
             <div>
                 <h5 class="text-danger">Danger Zone</h5>
                 <p class="text-muted small">
-                    Resetting will permanently delete your profile and all job data
+                    Resetting will permanently delete your profile and all job data.
                 </p>
                 <button class="btn btn-danger my-3" data-bs-toggle="modal" data-bs-target="#deleteAppModal">
                     <i class="bi bi-exclamation-circle"></i>
@@ -57,6 +68,7 @@ import { useUserStore } from '@/stores/useUserStore'
 import { useJobStore } from '@/stores/useJobStore'
 import UserForm from '@/components/shared/UserForm.vue'
 import { useToast } from 'vue-toastification'
+import { useExportExcel } from '@/composables/useExportExcel';
 import router from '@/router'
 const userStore = useUserStore()
 const jobStore = useJobStore()
@@ -69,3 +81,8 @@ const deleteData = () => {
 }
 
 </script>
+<style scoped>
+hr {
+    opacity: 1;
+}
+</style>

@@ -3,11 +3,11 @@
         <div class="row  mx-0 p-0">
             <div class="col-md-6 col-sm-12">
                 <div>
-                    <div class="p-3 text-white mb-4 w-100 rounded border d-flex align-items-center shadow-sm"
+                    <div class="p-3 text-white mb-4 w-100 rounded border d-flex align-items-center shadow-sm progress-alert"
                         style="background:#1cc88a;">
-                        <p class="mb-0 me-3">🚀</p>
+                        <h5 class="mb-0 me-3">🚀</h5>
                         <div>
-                            <div>Progress update:</div>
+                            <h6 class="mb-0">Progress update:</h6>
                             <p class="mb-0">{{ message }}</p>
                         </div>
                     </div>
@@ -17,7 +17,7 @@
                     <h5>Your quick stats:</h5>
                     <div class="col-6 my-2">
                         <div class="card p-3 shadow-sm">
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-3">
                                 <i class="bi bi-send fs-4 text-secondary"></i>
                                 <div>
                                     <div class="text-muted">Applied</div>
@@ -30,7 +30,7 @@
 
                     <div class="col-6 my-2">
                         <div class="card p-3 shadow-sm">
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-3">
                                 <i class="bi bi-chat-dots fs-4 text-primary"></i>
                                 <div>
                                     <div class="text-muted">Interviews</div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-6 my-2">
                         <div class="card p-3 shadow-sm">
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-3">
                                 <i class="bi bi-emoji-frown fs-4 text-danger"></i>
                                 <div>
                                     <div class="text-muted">Rejected</div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-6 my-2">
                         <div class="card p-3 shadow-sm">
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-3">
                                 <i class="bi bi-emoji-grin fs-4 text-success"></i>
                                 <div>
                                     <div class="text-muted">Selected</div>
@@ -68,7 +68,7 @@
                 <div class="row">
                     <div class="col-12 mt-3">
                         <div class="card shadow-sm p-3 d-flex justify-content-center">
-                            <div class="d-flex align-items-center gap-4 pt-0">
+                            <div class="d-flex align-items-center gap-3 pt-0">
                                 <i class="bi bi-briefcase fs-4 text-primary"></i>
                                 <div>
                                     <div class="text-muted">Total jobs</div>
@@ -103,3 +103,13 @@ const message = computed(() => {
 })
 
 </script>
+<style>
+@media (max-width: 767px){
+    .progress-alert {
+        flex-direction: column;
+        h5 {
+            margin: 0 0 10px !important;
+        }
+    }
+}
+</style>

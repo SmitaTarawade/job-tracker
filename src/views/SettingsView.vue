@@ -38,3 +38,8 @@ useHead({
 })
 
 </script>
+<style scoped>
+hr {
+    opacity: 1;
+}
+</style>

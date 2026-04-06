@@ -1,6 +1,6 @@
 <template>
     <div v-if="isMobile" class="flex-fill">
-        <div class="job-card card p-3 shadow-sm m-2" :data-job-id="job?.id"
+        <div class="job-card card p-3 shadow-sm " :data-job-id="job?.id"
             :class="{ 'focus': job?.id === jobStore.editJobItem?.id }">
             <h5 class="text-capitalize">{{ job.company }}</h5>
             <p class="text-capitalize">{{ job.role }}</p>

@@ -12,92 +12,94 @@
                             <h1>💼</h1>
                             <h5 class="my-2">Start Your Job Journey</h5>
                             <p class="mb-3">Start by adding your first job application.</p>
-                    </div>
+                        </div>
 
-                    <div class="text-center my-4">
-                        <button type="button" title="Add Job" class="btn btn-primary ms-3" @click="showForm = true"><i
-                                class="bi bi-plus"></i><span>
-                                Add Job </span></button>
+                        <div class="text-center my-4">
+                            <button type="button" title="Add Job" class="btn btn-primary ms-3"
+                                @click="showForm = true"><i class="bi bi-plus"></i><span>
+                                    Add Job </span></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="table-view">
-            <h5 class="d-flex align-items-center mb-3">Your Applications:</h5>
-            <div class="d-flex gap-3 mb-1 table-header ">
+            <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="table-view">
+                <h5 class="d-flex align-items-center mb-3">Your Applications:</h5>
+                <div class="d-flex gap-3 mb-1 table-header ">
 
-                <div class="ms-auto h-100 search-input">
-                    <div class="position-relative">
-                        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                        <input v-model="searchInput" type="text" class="form-control search-input ps-5"
-                            placeholder="Search jobs..." />
-                        <button v-if="searchInput" @click="searchInput = ''"
-                            class="btn btn-sm position-absolute end-0 top-50 translate-middle-y">
-                            <i class="bi bi-x position-absolute top-50 end-50 translate-middle-y me-3"></i>
-                        </button>
+                    <div class="ms-auto h-100 search-input">
+                        <div class="position-relative">
+                            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                            <input v-model="searchInput" type="text" class="form-control search-input ps-5"
+                                placeholder="Search jobs..." />
+                            <button v-if="searchInput" @click="searchInput = ''"
+                                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y">
+                                <i class="bi bi-x position-absolute top-50 end-50 translate-middle-y me-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 filter-group">
+                        <div class="filter-input d-flex h-100">
+                            <span class="d-sm-flex align-items-center d-none"> <i class="bi bi-funnel"></i>
+                                Filter:</span>
+                            <select v-model="jobStore.selectedStatus"
+                                class="form-select h-100 form-select-sm w-auto mx-3 text-capitalize">
+                                <option value="">All</option>
+                                <option v-for="status of statusOptions" :value="status" :key="status"
+                                    class="text-capitalize">
+                                    {{ status }}</option>
+                            </select>
+                        </div>
+                        <div class="btns w-100">
+                            <button class="btn btn-success ms-auto export-btn" title="Export to Excel"
+                                @click="useExportExcel()">
+                                <i class="bi bi-file-earmark-arrow-down"></i> Export to Excel
+                            </button>
+                            <button type="button" title="Add Job" class="btn btn-primary ms-3 add-btn"
+                                @click="showForm = true"><i class="bi bi-plus"></i><span>
+                                    Add Job </span></button>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-2 filter-group">
-                    <div class="filter-input d-flex h-100">
-                        <span class="d-flex align-items-center"> <i class="bi bi-funnel"></i> Filter:</span>
-                        <select v-model="jobStore.selectedStatus"
-                            class="form-select h-100 form-select-sm w-auto mx-3 text-capitalize">
-                            <option value="">All</option>
-                            <option v-for="status of statusOptions" :value="status" :key="status"
-                                class="text-capitalize">
-                                {{ status }}</option>
-                        </select>
+                <div class="job-list-wrapper">
+                    <div v-if="isMobile" class="d-flex my-4 flex-wrap gap-3">
+                        <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job" :is-mobile="isMobile"
+                            :statusOptions="statusOptions"></job-item>
                     </div>
-                    <div class="btn-group">
-                        <button class="btn btn-success ms-auto" title="Export to Excel" @click="exportToExcel">
-                            <i class="bi bi-file-earmark-arrow-down"></i> Export to Excel
-                        </button>
-                        <button type="button" title="Add Job" class="btn btn-primary ms-3" @click="showForm = true"><i
-                                class="bi bi-plus"></i><span>
-                                Add Job </span></button>
-                    </div>
-
+                    <table v-else class="table table-responsive align-middle my-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
+                                <th @click="sortColumn('company')">Company {{ getSortIcon('company') }}</th>
+                                <th @click="sortColumn('role')">Role {{ getSortIcon('role') }}</th>
+                                <th @click="sortColumn('status')">Status {{ getSortIcon('status') }}</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="!jobStore.finalJobs">
+                                <td colspan="6">
+                                    <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
+                                </td>
+                            </tr>
+                            <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
+                                :is-mobile="isMobile" :statusOptions="statusOptions"></job-item>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <div class="job-list-wrapper">
-                <div v-if="isMobile" class="d-flex my-4 flex-wrap">
-                    <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job" :is-mobile="isMobile"
-                        :statusOptions="statusOptions"></job-item>
-                </div>
-                <table v-else class="table table-responsive align-middle my-4">
-                    <thead class="table-light">
-                        <tr>
-                            <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
-                            <th @click="sortColumn('company')">Company {{ getSortIcon('company') }}</th>
-                            <th @click="sortColumn('role')">Role {{ getSortIcon('role') }}</th>
-                            <th @click="sortColumn('status')">Status {{ getSortIcon('status') }}</th>
-                            <th>Notes</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="!jobStore.finalJobs">
-                            <td colspan="6">
-                                <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
-                            </td>
-                        </tr>
-                        <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
-                            :is-mobile="isMobile" :statusOptions="statusOptions"></job-item>
-                    </tbody>
-                </table>
+        </div>
+        <div v-if="showForm" class="modal-overlay" @close="showForm = !showForm">
+            <div class="modal-box w-100">
+                <job-form v-if="showForm || jobStore.editJobItem" :editJobData="editJobData"
+                    @close="showForm = !showForm" />
             </div>
-        </div>
-    </div>
-    <div v-if="showForm" class="modal-overlay" @close="showForm = !showForm">
-        <div class="modal-box w-100">
-            <job-form v-if="showForm || jobStore.editJobItem" :editJobData="editJobData"
-                @close="showForm = !showForm" />
-        </div>
 
-    </div>
+        </div>
     </div>
 </template>
 
@@ -106,9 +108,8 @@ import JobItem from '@/components/jobs/JobItem.vue';
 import JobForm from '@/components/jobs/JobForm.vue';
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useJobStore } from '@/stores/useJobStore';
-import { getDate } from '@/utils/formatDate'
+import { useExportExcel } from '@/composables/useExportExcel';
 import { useRoute } from 'vue-router'
-import * as XLSX from 'xlsx'
 const searchInput = ref('')
 const showForm = ref(false)
 const editJobData = ref()
@@ -135,29 +136,6 @@ function getSortIcon(field: string) {
     }
 }
 
-function exportToExcel() {
-    const data = jobStore.finalJobs.map(job => ({
-        Date: getDate(job.id),
-        Company: job.company,
-        Role: job.role,
-        Status: job.status,
-        Notes: job.notes
-    }))
-
-    const worksheet = XLSX.utils.json_to_sheet(data)
-    worksheet['!cols'] = [
-        { wch: 20 }, // Company
-        { wch: 20 }, // Role
-        { wch: 15 }, // Status
-        { wch: 15 }, // Date
-        { wch: 30 }  // Notes
-    ]
-    const workbook = XLSX.utils.book_new()
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Jobs')
-
-    XLSX.writeFile(workbook, 'jobs.xlsx')
-}
 
 function checkScreenSize() {
     isMobile.value = window.innerWidth <= 768
@@ -289,5 +267,21 @@ th:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media (max-width: 767px) {
+    .btns {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .export-btn {
+        width: 100%;
+    }
+
+    .add-btn {
+        width: 100%;
+        margin: 10px 0 !important;
+    }
 }
 </style>
