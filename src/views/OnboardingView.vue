@@ -32,7 +32,17 @@ import { useUserStore } from '@/stores/useUserStore'
 import FooterSection from '@/components/shared/Footer.vue'
 import UserForm from '@/components/shared/UserForm.vue'
 import router from '@/router'
+import { useHead } from '@vueuse/head'
 
+useHead({
+  title: 'Job Tracker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Track your job applications'
+    }
+  ]
+})
 const userStore = useUserStore()
 const name = ref<String>('')
 const emoji = ref<String>('😎')

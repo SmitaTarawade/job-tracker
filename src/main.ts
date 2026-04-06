@@ -6,10 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Toast from "vue-toastification"
+import { createHead } from '@vueuse/head'
 import "vue-toastification/dist/index.css"
 import { useUserStore } from '@/stores/useUserStore'
 
+
 const app = createApp(App)
+const head = createHead()
+app.use(head)
 
 const pinia = createPinia()
 app.use(pinia)

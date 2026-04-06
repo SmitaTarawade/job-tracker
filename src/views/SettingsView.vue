@@ -25,5 +25,16 @@ import FooterSection from '@/components/shared/Footer.vue';
 import UserForm from '@/components/shared/UserForm.vue';
 import Navigation from '@/components/shared/Navigation.vue';
 import Settings from '@/components/Settings.vue';
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Settings | Job Tracker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Track your job applications'
+    }
+  ]
+})
 
 </script>

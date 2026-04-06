@@ -7,8 +7,8 @@ export function useChartData() {
         
     result.forEach((job) => {
             const date = new Date(job.id).toLocaleDateString('en-GB', {
+                month: 'short',
                 day: 'numeric',
-                month: 'short'
             })
 
             map[date] = (map[date] || 0) + 1

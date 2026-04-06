@@ -48,7 +48,7 @@ const name = ref<String>('')
 const emoji = ref<String>('')
 const error = ref<String>('')
 
-const emojis = ['😎', '😊', '👦', '🧔', '👧', '🧕', '🚀', '🔥', '💼', '👽', '🌱', '🌷', '🌈', '🎀',]
+const emojis = ['😎', '😊', '👦', '🧔', '👧', '🧕', '🚀', '🔥', '💼', '👽', '👾', '🌱', '🌷', '🌈', '🎀',]
 
 const handleSubmit = () => {
     if (!name.value.trim()) {
@@ -74,8 +74,11 @@ onMounted(() => {
 })
 </script>
 <style scoped>
-.emoji.selected {
-    background-color: rgb(28, 200, 138) !important;
+.emoji {
+    min-width: 48px;
+    &.selected {
+        background-color: rgb(28, 200, 138) !important;
+    }
 }
 
 hr {

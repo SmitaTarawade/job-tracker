@@ -4,6 +4,17 @@ import { useJobStore } from '@/stores/useJobStore';
 import FooterSection from '@/components/shared/Footer.vue';
 import { onMounted } from 'vue'
 import Navigation from '@/components/shared/Navigation.vue';
+import { useHead } from '@vueuse/head'
+
+useHead({
+    title: 'Dashboard | Job Tracker',
+    meta: [
+        {
+            name: 'description',
+            content: 'Track your job applications'
+        }
+    ]
+})
 const jobStore = useJobStore()
 onMounted(() => {
     jobStore.loadJobs()
@@ -21,22 +32,22 @@ onMounted(() => {
                         <div class="spinner-border text-primary"></div>
                     </div>
                     <div v-else-if="!jobStore.isLoading && !jobStore.jobs.length"
-                        class="h-100 m-0 p-4 rounded d-flex justify-content-center align-items-center main-wrapper">
+                        class="h-100 m-0 p-2 rounded d-flex justify-content-center align-items-center main-wrapper">
                         <div class="w-100">
                             <div>
                                 <div class="text-center">
                                     <h1>📆</h1>
-                                    <h2 class="my-2">We don’t have enough data yet.</h2>
+                                    <h5 class="my-2">We don’t have enough data yet.</h5>
                                     <p class="mb-3">Start by adding your first job application.</p>
                                 </div>
                             </div>
                             <div class="text-center my-4">
-                                <router-link :to="{ path: '/jobs', query: { showForm: 'true' } }" class="btn btn-md btn-primary">
+                                <router-link :to="{ path: '/jobs', query: { showForm: 'true' } }"
+                                    class="btn btn-md btn-primary">
                                     + Add Job
                                 </router-link>
                             </div>
                         </div>
-
                     </div>
                     <div v-else="!jobStore.isLoading && jobStore.jobs.length"
                         class="alert mb-4 alert-primary text-white p-4 rounded d-flex justify-content-between align-items-center shadow-sm"
@@ -51,7 +62,7 @@ onMounted(() => {
                                     search.</p>
                             </div>
                         </div>
-                        <router-link to="/jobs" class="btn btn-light">
+                        <router-link  :to="{ path: '/jobs', query: { showForm: 'true' } }" class="btn btn-light">
                             + Add Job
                         </router-link>
                     </div>
