@@ -36,6 +36,7 @@ A clean and intuitive **Job Tracking Web App** built with Vue.js to help you sta
 ## 🧠 Tech Stack
 
 * ⚡ **Vue.js**
+* 📃 **Typescript**
 * 🎨 **Bootstrap**
 * 📦 **Vue Router**
 * 🔥 **Pinia, Composables**
