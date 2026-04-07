@@ -25,7 +25,7 @@
 
             <div v-else-if="!jobStore.isLoading && jobStore.jobs.length" class="table-view">
                 <h5 class="d-flex align-items-center mb-3">Your Applications:</h5>
-                <div class="d-flex gap-3 mb-1 table-header ">
+                <div class="d-flex gap-3 mb-1 table-header sticky-top bg-white py-3 ">
 
                     <div class="ms-auto h-100 search-input">
                         <div class="position-relative">
@@ -41,7 +41,7 @@
 
                     <div class="d-flex align-items-center gap-3 filter-group">
                         <div class="filter-input d-flex h-100">
-                            <span class="d-sm-flex align-items-center d-none"> <i class="bi bi-funnel"></i>
+                            <span class="d-sm-flex align-items-center d-none me-2"> <i class="bi bi-funnel"></i>
                                 Filter:</span>
                             <select v-model="jobStore.selectedStatus"
                                 class="form-select h-100 form-select-sm w-auto mx-3 text-capitalize">
@@ -54,22 +54,34 @@
                         <div class="btns w-100">
                             <button class="btn btn-success ms-auto export-btn" title="Export to Excel"
                                 @click="useExportExcel()">
-                                <i class="bi bi-file-earmark-arrow-down"></i> Export to Excel
+                                <i class="bi bi-file-earmark-arrow-down"></i> <span>{{isMobile ? 'Export' : 'Export to Excel' }}</span>
                             </button>
                             <button type="button" title="Add Job" class="btn btn-primary ms-3 add-btn"
                                 @click="showForm = true"><i class="bi bi-plus"></i><span>
-                                    Add Job </span></button>
+                                   <span>{{isMobile ? 'Add' : 'Add Job' }}</span></span></button>
                         </div>
 
                     </div>
                 </div>
 
-                <div class="job-list-wrapper">
-                    <div v-if="isMobile" class="d-flex my-4 flex-wrap gap-3">
+                <div v-if="!jobStore.finalJobs.length"
+                    class="h-100 m-0 p-2 rounded d-flex justify-content-center align-items-center main-wrapper">
+                    <div class="w-100">
+                        <div>
+                            <div class="text-center">
+                                <h1>💼</h1>
+                                <h5 class="my-2">No jobs found in this category.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else class="job-list-wrapper">
+                    <div v-if="isMobile" class="d-flex mb-4 flex-wrap gap-3">
                         <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job" :is-mobile="isMobile"
                             :statusOptions="statusOptions"></job-item>
                     </div>
-                    <table v-else class="table table-responsive align-middle my-4">
+                    <table v-else class="table table-responsive align-middle mb-4">
                         <thead class="table-light">
                             <tr>
                                 <th @click="sortColumn('id')">Date {{ getSortIcon('date') }}</th>
@@ -81,13 +93,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="!jobStore.finalJobs">
-                                <td colspan="6">
-                                    <p class="text-center text-muted mt-4"> No jobs found in this category.</p>
-                                </td>
-                            </tr>
-                            <job-item v-else v-for="job in jobStore.finalJobs" :key="job.id" :job="job"
-                                :is-mobile="isMobile" :statusOptions="statusOptions"></job-item>
+                            <job-item v-for="job in jobStore.finalJobs" :key="job.id" :job="job" :is-mobile="isMobile"
+                                :statusOptions="statusOptions"></job-item>
                         </tbody>
                     </table>
                 </div>
@@ -242,17 +249,12 @@ th:hover {
 
         .filter-input,
         .filter-group {
-            flex-direction: column;
-            width: 100%;
 
             select {
                 margin: 0 !important;
             }
         }
 
-        .btn-group {
-            width: 100%;
-        }
     }
 }
 
@@ -272,16 +274,7 @@ th:hover {
 @media (max-width: 767px) {
     .btns {
         display: flex;
-        flex-direction: column-reverse;
-    }
-
-    .export-btn {
-        width: 100%;
-    }
-
-    .add-btn {
-        width: 100%;
-        margin: 10px 0 !important;
+        flex-direction: row;
     }
 }
 </style>
