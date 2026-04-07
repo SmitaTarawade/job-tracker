@@ -50,7 +50,7 @@
                                     {{ status }}</option>
                             </select>
                         </div>
-                        <div class="btns w-100">
+                        <div class="btns">
                             <button class="btn btn-success ms-auto export-btn py-2" title="Export to Excel"
                                 @click="useExportExcel()">
                                 <i class="bi bi-file-earmark-arrow-down"></i> <span>{{isMobile ? 'Export' : 'Export to Excel' }}</span>
@@ -233,30 +233,6 @@ th:hover {
     max-width: 100%;
     overflow-x: auto;
 }
-
-@media (max-width: 820px) {
-    .job-list-wrapper {
-        overflow-x: hidden;
-    }
-
-    .table-header {
-        flex-direction: column;
-
-        .search-input {
-            width: 100%;
-        }
-
-        .filter-input,
-        .filter-group {
-
-            select {
-                margin: 0 !important;
-            }
-        }
-
-    }
-}
-
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -269,11 +245,40 @@ th:hover {
     justify-content: center;
     align-items: center;
 }
-
-@media (max-width: 767px) {
-    .btns {
-        display: flex;
-        flex-direction: row;
+@media (max-width: 820px) {
+    .job-list-wrapper {
+        overflow-x: hidden;
     }
+
+    .table-header {
+        flex-direction: column;
+
+        .search-input {
+            width: 100%;
+        }
+
+            select {
+                margin: 0 !important;
+            }
+
+            .filter-group {
+                justify-content: flex-end;
+            }
+
+    }
+}
+
+@media (max-width: 768px) {
+     .filter-group {
+    justify-content: space-between !important;
+}
+}
+
+@media (max-width: 432px) {
+     .filter-input select {
+                max-width: 60px !important;
+                padding: 0 35px;
+            }
+
 }
 </style>
