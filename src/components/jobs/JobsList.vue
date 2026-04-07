@@ -40,11 +40,10 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-3 filter-group">
-                        <div class="filter-input d-flex h-100">
-                            <span class="d-sm-flex align-items-center d-none me-2"> <i class="bi bi-funnel"></i>
-                                Filter:</span>
+                        <div class="filter-input position-relative">
+                            <i class="bi bi-funnel position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <select v-model="jobStore.selectedStatus"
-                                class="form-select h-100 form-select-sm w-auto mx-3 text-capitalize">
+                                class="form-select h-100 form-select-sm w-auto text-capitalize ps-5">
                                 <option value="">All</option>
                                 <option v-for="status of statusOptions" :value="status" :key="status"
                                     class="text-capitalize">
@@ -52,11 +51,11 @@
                             </select>
                         </div>
                         <div class="btns w-100">
-                            <button class="btn btn-success ms-auto export-btn" title="Export to Excel"
+                            <button class="btn btn-success ms-auto export-btn py-2" title="Export to Excel"
                                 @click="useExportExcel()">
                                 <i class="bi bi-file-earmark-arrow-down"></i> <span>{{isMobile ? 'Export' : 'Export to Excel' }}</span>
                             </button>
-                            <button type="button" title="Add Job" class="btn btn-primary ms-3 add-btn"
+                            <button type="button" title="Add Job" class="btn btn-primary ms-3 add-btn py-2"
                                 @click="showForm = true"><i class="bi bi-plus"></i><span>
                                    <span>{{isMobile ? 'Add' : 'Add Job' }}</span></span></button>
                         </div>
